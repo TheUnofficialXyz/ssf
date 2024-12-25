@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Space Shooter</title>
+    <style>
+        canvas {
+            position: relative;
+            z-index: 1; /* Make sure canvas is below menu */
+            border: 1px solid black;
+            background-color: #000;
+        }
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #222;
+        }
+        #menuContainer {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            z-index: 9999; /* Increased z-index to be above everything */
+        }
+        .menuButton {
+            padding: 15px 30px;
+            font-size: 24px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            user-select: none; /* Prevent text selection */
+            pointer-events: auto; /* Ensure clicks are registered */
+        }
+        .menuButton:hover {
+            background-color: #45a049;
+        }
+        #mobileControls {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            width: 100%;
+            justify-content: space-between;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 1000;
+        }
+        .controlBtn {
+            background: rgba(255,255,255,0.3);
+            border: none;
+            border-radius: 50%;
+            width: 50px; /* Reduced from 60px */
+            height: 50px; /* Reduced from 60px */
+            color: white;
+            font-size: 20px; /* Reduced from 24px */
+            touch-action: manipulation;
+        }
+        .moveControls {
+            position: relative;
+            width: 150px;
+            height: 150px;
+        }
+        .moveControls .controlBtn {
+            position: absolute;
+        }
+        #leftBtn {
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #rightBtn {
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        #upBtn {
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        #downBtn {
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        .shootBtn {
+            display: flex;
+            align-items: center;
+        }
+        @media (max-width: 800px) {
+            canvas {
+                width: 100%;
+                height: auto;
+            }
+            #mobileControls {
+                display: flex;
+            }
+            #menuContainer {
+                position: fixed; /* Change to fixed for mobile */
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 9999;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="menuContainer">
+        <button id="startButton" class="menuButton">Start Game</button>
+    </div>
+    <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mp3">
+    </audio>
+    <div id="mobileControls">
+        <div class="moveControls">
+            <button class="controlBtn" id="leftBtn">←</button>
+            <button class="controlBtn" id="rightBtn">→</button>
+            <button class="controlBtn" id="upBtn">↑</button>
+            <button class="controlBtn" id="downBtn">↓</button>
+        </div>
+        <div class="shootBtn">
+            <button class="controlBtn" id="shootBtn">🔥</button>
+        </div>
+    </div>
+    <script src="game.js"></script>
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>
